@@ -1,0 +1,87 @@
+[paths]
+raw_dir = "data/raw"
+interim_dir = "data/interim"
+processed_dir = "data/processed"
+artifacts_dir = "artifacts"
+
+[data]
+transactions_file = "transactions.csv"
+members_file = "members_v3.csv"
+chunk_rows = 1500000
+observation_start = "2015-01-01"
+observation_end = "2017-02-28"
+max_users = 0
+
+[synthetic]
+enabled = true
+n_users = 250000
+seed = 20260908
+signup_start = "2015-01-01"
+signup_end = "2016-10-31"
+auto_renew_rate = 0.84
+base_monthly_hazard = 0.052
+tenure_hazard_decay = 0.055
+auto_renew_hazard_multiplier = 0.34
+price_increase_hazard_multiplier = 1.85
+discount_hazard_multiplier = 0.72
+voluntary_share_auto_renew = 0.74
+voluntary_share_manual = 0.21
+members_missing_rate = 0.06
+
+[panel]
+period_days = 30
+grace_days = 30
+max_periods = 30
+min_periods_observed = 1
+cancel_wins_same_day = false
+
+[features]
+recent_window_periods = 3
+age_min = 5
+age_max = 95
+rare_category_min_count = 500
+
+[split]
+train_end = "2016-07-30"
+valid_landmark = "2016-07-31"
+test_landmark = "2016-10-31"
+horizon_periods = 3
+extended_horizon_periods = 6
+min_window_fraction = 0.5
+
+[models]
+fit_kaplan_meier = true
+fit_cox = true
+fit_cox_time_varying = false
+fit_logistic_hazard = true
+fit_boosted_hazard = true
+fit_competing_risks = true
+competing_risks_model = "logistic"
+train_max_rows = 1500000
+cox_sample_users = 60000
+cox_penalizer = 0.05
+logistic_c = 0.5
+logistic_max_iter = 400
+tenure_spline_knots = 6
+boosted_max_iter = 220
+boosted_learning_rate = 0.06
+boosted_max_leaf_nodes = 31
+boosted_min_samples_leaf = 120
+boosted_l2 = 1.0
+boosted_early_stopping_rounds = 25
+
+[evaluate]
+calibration_bins = 10
+ipcw_clip_quantile = 0.99
+bootstrap_rounds = 200
+naive_baseline = true
+
+[decide]
+contact_cost = 1.5
+save_rate = 0.22
+target_fraction = 0.10
+period_margin_rate = 0.65
+
+[run]
+seed = 20260908
+n_jobs = 2
